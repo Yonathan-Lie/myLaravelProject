@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     public function Index(){
-        return view('welcome');
+        return view('pages/welcome');
+    }
+
+    public function pagetwo()
+    {
+        return view('pages/pagetwo');
     }
 }
