@@ -1,16 +1,23 @@
 import './bootstrap';
-import 'bootstrap';
-import 'select2';
+import '../css/app.css';
 
+import { createApp, h } from 'vue';
+import { createInertiaApp } from '@inertiajs/vue3';
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
-import {createApp} from "vue/dist/vue.esm-bundler.js";
-import mycomponent from "../views/components/vueComponents/MyComponent.vue";
-import vueselect2 from "../views/components/vueComponents/VueSelect2.vue";
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
-const app = createApp({
-    components: {
-        'my-component' : mycomponent, 'vue-select2' : vueselect2,
-    }
+createInertiaApp({
+    title: (title) => `${title} - ${appName}`,
+    resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
+    setup({ el, App, props, plugin }) {
+        return createApp({ render: () => h(App, props) })
+            .use(plugin)
+            .use(ZiggyVue)
+            .mount(el);
+    },
+    progress: {
+        color: '#4B5563',
+    },
 });
-
-app.mount("#app");
